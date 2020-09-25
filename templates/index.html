@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatBot</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <script src="{{url_for('static',filename='js/index.js')}}"></script>
+</head>
+<body>
+    <h1>Título del Sitio Web</h1>
+    <div>Contenido</div>
+    <!-- Componente del Chat. -->
+    <div>
+        <div class="caja-chatbot">
+            <span class="texto-chatbot">
+                Abrir Chat
+            </span>
+        </div>
+        <div class="cuadro-chatbot in">
+            <h2>Chatea con Nosotros!</h2>
+            <div class="mensajes-chatbot" id="div-mensajes-chat">
+            </div>
+            <div class="caja-entrada">
+                <input class="entrada-chatbot" type="text" placeholder="Ingrese su mensaje Aquí" id="input-chat">
+                <button class="enviar-chatbot" type="button" id="boton-chat"><span>Enviar</span></button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

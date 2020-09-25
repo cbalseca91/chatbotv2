@@ -1,0 +1,98 @@
+.caja-chatbot {
+    display: none;
+    position: fixed;
+    background: blue;
+    color: white;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    padding: 10px 10px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 10px 10px 10px -3px rgba(0,0,0,0.75);
+}
+.caja-chatbot.in {
+    display: flex;
+}
+.texto-chatbot {
+    display: block;
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.cuadro-chatbot{
+    display: none;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 300px;
+    height: 600px;
+    box-shadow: 10px 10px 10px -3px rgba(0,0,0,0.75);
+    border: solid 4px green;
+    border-radius: 10px;
+    padding: 0;
+    margin: 0;
+}
+.cuadro-chatbot.in{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+.cuadro-chatbot h2 {
+    background: green;
+    color: white;
+    margin: 0;
+    padding: 2px 0px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.mensajes-chatbot {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.mensaje-chat {
+    width: 60%;
+    margin: 4px 3px;
+    padding: 2px 4px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 6px -5px rgba(0,0,0,0.75);
+    font-size: 0.9em;
+}
+.mensaje-chat.pc {
+    background-color: teal;
+    color: white;
+}
+.mensaje-chat.user {
+    background-color: orange;
+    color: white;
+    align-self: flex-end;
+}
+.caja-entrada {
+    display: flex;
+    border-top: solid 1px;
+}
+.entrada-chatbot {
+    flex-grow: 1;
+    font-weight: bolder;
+    font-size: 0.9em;
+    padding: 7px 3px;
+    border: none;
+}
+.enviar-chatbot {
+    background: orange;
+    border: none;
+    color: white;
+}
+.img-chat {
+    width: 100%;
+    max-width: 100%
+}
