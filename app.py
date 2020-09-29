@@ -13,4 +13,10 @@ def inicio():
 def chatbot():
     if request.method == 'POST':
         chatbot = Chatbot()
-        return chatbot.recibir_mensaje(request.form['text'])
+        if 'text' in request.form:
+            return chatbot.recibir_mensaje(request.form['text'])
+        elif 'satisfaccion' in request.form and 'pregunta' in request.form:
+            return chatbot.satisfaccion(request.form['satisfaccion'],request.form['pregunta'])
+        else:
+            return "Nada que responder"
+    return "No se ha solicitado ninguna pregunta."

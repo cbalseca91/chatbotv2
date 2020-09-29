@@ -6,6 +6,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 
+from mongo import Mongo
+from correo import Correo
+
 
 # nltk.download('punkt')  # Instalar si no se tiene o si es la primera vez que se va a correr el proyecto
 # nltk.download('wordnet')  # Instalar si no se tiene o si es la primera vez que se va a correr el proyecto
@@ -15,20 +18,25 @@ from nltk.corpus import stopwords
 # raw = f.read()
 # sent_tokens = nltk.sent_tokenize(raw)  # Convierte las respuestas en sentencias, tomando el \n como fin
 
-from mongo import Mongo
+
 
 
 class Chatbot:
 
     def __init__(self):
         self.mongo = Mongo() #Instanciamos la clase que conecta a la base de datos
+        self.correo = Correo() #Instanciamos la clase que conecta el servicio SMTP para envío de correos
         self.sent_tokens = self.mongo.gettexto() #Consultamos a la tabla todas las frases almacenadas, como es texto plano, no afecta el tamaño.
 
         self.lemmer = nltk.stem.WordNetLemmatizer()  # Instanciamos el lematizador de nltk, es para obtener sinónimos
 
         # Definimos respuestas manuales a posibles saludos
-        self.saludos_inputs = ("hola", "buenas", "qué tal", "hey", "buenos días",)
+        self.saludos_inputs = ("hola", "buenas", "qué tal", "hey", "buenos días")
         self.saludos_output = ["Hola", "Hola que tal", "Saludos. En que te puedo ayudar"]
+        self.pregunta_output = ["¿Te fue útil la respuesta?","¿La respuesta te ayudó?","¿Estás satisfecho con la respuesta?"]
+        self.satisfaccion_input_pos = ("si", "bien", "de acuerdo", "de a cuerdo", "correcto", "satisfecho")
+        self.satisfaccion_input_neg = ("no", "mal", "desacuerdo", "tal vez", "talvez", "incompleto", "fallo", "falló")
+        self.respuesta_output = ["Gracias. Si deseas, puedes hacerme otra pregunta", "Un gusto. Si necesitas algo más, hazme una nueva pregunta."]
 
         # Obtenemos un arreglo con los signos de puntuación para limpiar los tokens
         self.remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
@@ -58,10 +66,15 @@ class Chatbot:
         flat.sort()
         req_tfid = flat[-2]
         if (req_tfid == 0):
+            #Enviamos mensaje de error al correo.
+            msg = f"No se ha entendido la pregunta\n\nPregunta del usuario: {user_response}"
+            self.correo.enviarCorreo(msg)
             return "Lo siento no se entiende el mensaje que solicitas"
         else:
             resp = self.sent_tokens[idx]
+            satisfaccion = random.choice(self.pregunta_output)
             url = self.mongo.getimagen(resp)
+            resp += f"<br><br><b>{satisfaccion} [Si/No]</b>"
             if len(url) > 0:
                 #Texto formateado con la imagen
                 return f'{resp} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>'
@@ -76,6 +89,20 @@ class Chatbot:
         else:
             return self.response(texto)
 
+    def satisfaccion(self, respuesta, pregunta):
+        for word in respuesta.split():
+            #Verificamos si es una respuesta positiva
+            if word.lower() in self.satisfaccion_input_pos:
+                return random.choice(self.respuesta_output)
+            #Verificamos si es una respuesta negativa
+            elif word.lower() in self.satisfaccion_input_neg:
+                #Enviamos mensaje de insatisfecho al correo.
+                msg = f"Respuesta insatisfecha:\n\nRespuesta del chat: {pregunta}\n\nRespuesta del usuario: {respuesta}"
+                self.correo.enviarCorreo(msg)
+                return random.choice(self.respuesta_output)
+            #Si no es nada, se intentará responder como una pregunta cualquiera.
+            else:
+                return self.recibir_mensaje(respuesta)
 
 #chatbot = Chatbot()
 #print(chatbot.recibir_mensaje('cascada'))

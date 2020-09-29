@@ -1,4 +1,7 @@
 //CAPTURAMOS EL ENTER DEL CUADRO
+//CREAMOS UNA VARIBLE GLOBAL
+//Almacenamos la pregunta actual, para medir satisfacción.
+var _satisfaccion = null
 document.addEventListener("DOMContentLoaded", () => {
 
 var inputChat = document.getElementById('input-chat')
@@ -6,19 +9,19 @@ var buttonChat = document.getElementById('boton-chat')
 
 inputChat.addEventListener("keyup", (e) => {
     if (e.code == 'Enter') {
-        enviarMensaje(inputChat.value)
+        enviarMensaje(inputChat.value,false)
         inputChat.value = "";
     }
 })
 
 buttonChat.addEventListener('click', () => {
-    enviarMensaje(inputChat.value)
+    enviarMensaje(inputChat.value,false)
     inputChat.value = "";
 })
 
 });
 
-var enviarMensaje = (text) => {
+var enviarMensaje = (text, saludar) => {
 
     if(text == ''){
         return;
@@ -35,16 +38,27 @@ var enviarMensaje = (text) => {
     var req = new XMLHttpRequest();
     req.onreadystatechange = (response) => {
         if(req.readyState == 4 && req.status == 200) {
-            console.log(req.responseText)
+            //Se crea elemento de respuesta
             var mensajepc = document.createElement("div")
             mensajepc.innerHTML = req.responseText
             mensajepc.classList.add('mensaje-chat','pc')
             divChat.appendChild(mensajepc)
+            //Cambiamos el estado de satisfacción, para la siguiente respuesta
+            if( req.responseText.includes("[Si/No]") ){
+                _satisfaccion = req.responseText
+            }
         } else if(req.status == '404' || req.status == '405' ) {
             console.log('no hubo respuesta')
+
         }
     }
     req.open('POST', '/api/chatbot', true);
     req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-    req.send("text=" + text);
+    //Evaluamos si es satisfacción
+    if(_satisfaccion){
+        req.send("satisfaccion=" + text + "&pregunta=" + _satisfaccion)
+    }else{
+        req.send("text=" + text);
+    }
+    _satisfaccion = null
 }
