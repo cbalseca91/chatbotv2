@@ -2,6 +2,7 @@
 //CREAMOS UNA VARIBLE GLOBAL
 //Almacenamos la pregunta actual, para medir satisfacción.
 var _satisfaccion = null
+var preguntaOriginal = null
 document.addEventListener("DOMContentLoaded", () => {
 
 var inputChat = document.getElementById('input-chat')
@@ -46,6 +47,7 @@ var enviarMensaje = (text, saludar) => {
             //Cambiamos el estado de satisfacción, para la siguiente respuesta
             if( req.responseText.includes("[Si/No]") ){
                 _satisfaccion = req.responseText
+                preguntaOriginal = text //Almacenamos la pregunta original.
             }
         } else if(req.status == '404' || req.status == '405' ) {
             console.log('no hubo respuesta')
@@ -56,7 +58,7 @@ var enviarMensaje = (text, saludar) => {
     req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
     //Evaluamos si es satisfacción
     if(_satisfaccion){
-        req.send("satisfaccion=" + text + "&pregunta=" + _satisfaccion)
+        req.send("satisfaccion=" + text + "&pregunta=" + _satisfaccion + "&original=" + preguntaOriginal)
     }else{
         req.send("text=" + text);
     }

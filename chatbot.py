@@ -73,14 +73,17 @@ class Chatbot:
         else:
             resp = self.sent_tokens[idx]
             satisfaccion = random.choice(self.pregunta_output)
-            url = self.mongo.getimagen(resp)
+            respuesta = self.mongo.getRespuesta(resp)
             resp += f"<br><br><b>{satisfaccion} [Si/No]</b>"
-            if len(url) > 0:
+            if len(respuesta['urlimage']) > 0:
+                url = respuesta['urlimage']
+                frase = respuesta["frase"]
                 #Texto formateado con la imagen
-                return f'{resp} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>'
+                return f'{frase} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>'
             else:
+                frase = respuesta["frase"]
                 #Solo texto en la respuesta
-                return resp
+                return frase
 
     def recibir_mensaje(self, texto):
         texto = texto.lower()
@@ -89,7 +92,7 @@ class Chatbot:
         else:
             return self.response(texto)
 
-    def satisfaccion(self, respuesta, pregunta):
+    def satisfaccion(self, respuesta, pregunta,original):
         for word in respuesta.split():
             #Verificamos si es una respuesta positiva
             if word.lower() in self.satisfaccion_input_pos:
@@ -97,7 +100,7 @@ class Chatbot:
             #Verificamos si es una respuesta negativa
             elif word.lower() in self.satisfaccion_input_neg:
                 #Enviamos mensaje de insatisfecho al correo.
-                msg = f"Respuesta insatisfecha:\n\nRespuesta del chat: {pregunta}\n\nRespuesta del usuario: {respuesta}"
+                msg = f"Respuesta insatisfecha:\n\nPregunta del Usuario: {original}\n\nRespuesta del chat: {pregunta}\n\nRespuesta del Usuario: {respuesta}"
                 self.correo.enviarCorreo(msg)
                 return random.choice(self.respuesta_output)
             #Si no es nada, se intentará responder como una pregunta cualquiera.

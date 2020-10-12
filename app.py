@@ -16,7 +16,7 @@ def chatbot():
         if 'text' in request.form:
             return chatbot.recibir_mensaje(request.form['text'])
         elif 'satisfaccion' in request.form and 'pregunta' in request.form:
-            return chatbot.satisfaccion(request.form['satisfaccion'],request.form['pregunta'])
+            return chatbot.satisfaccion(request.form['satisfaccion'], request.form['pregunta'], request.form['original'])
         else:
             return "Nada que responder"
     return "No se ha solicitado ninguna pregunta."
