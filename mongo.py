@@ -45,7 +45,7 @@ class Mongo:
 
         return {"urlimage": urlimage, "frase": frase}
 
-
+'''
 mongo = Mongo()
 mongo.inserttexto({
     'titulo': "definición modelo cascada",
@@ -53,3 +53,4 @@ mongo.inserttexto({
     'urlimage': "https://user.oc-static.com/upload/2017/07/11/14997883020913_Captura%20de%20pantalla%202017-07-11%20a%20las%2017.51.18.png"
 })
 print(mongo.getRespuesta("definición modelo cascada"))
+'''

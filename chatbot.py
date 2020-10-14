@@ -74,14 +74,14 @@ class Chatbot:
             resp = self.sent_tokens[idx]
             satisfaccion = random.choice(self.pregunta_output)
             respuesta = self.mongo.getRespuesta(resp)
-            resp += f"<br><br><b>{satisfaccion} [Si/No]</b>"
+            si_no = f"<br><br><b>{satisfaccion} [Si/No]</b>"
             if len(respuesta['urlimage']) > 0:
                 url = respuesta['urlimage']
                 frase = respuesta["frase"]
                 #Texto formateado con la imagen
-                return f'{frase} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>'
+                return f'{frase} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>{si_no}'
             else:
-                frase = respuesta["frase"]
+                frase = respuesta["frase"] + si_no
                 #Solo texto en la respuesta
                 return frase
 
