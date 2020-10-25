@@ -1,7 +1,7 @@
 .caja-chatbot {
     display: none;
     position: fixed;
-    background: blue;
+    background: #006AFF;
     color: white;
     right: 20px;
     bottom: 20px;
@@ -32,19 +32,24 @@
     width: 300px;
     height: 600px;
     box-shadow: 10px 10px 10px -3px rgba(0,0,0,0.75);
-    border: solid 4px green;
+    border: solid 4px #006AFF;
     border-radius: 10px;
     padding: 0;
     margin: 0;
 }
-.cuadro-chatbot.in{
+.cuadro-chatbot.in {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     overflow: hidden;
 }
+.cuadro-chatbot i {
+    color: #898F9C;
+    font-size: 1rem;
+
+}
 .cuadro-chatbot h2 {
-    background: green;
+    background: #006AFF;
     color: white;
     margin: 0;
     padding: 2px 0px;
@@ -68,11 +73,11 @@
     font-size: 0.9em;
 }
 .mensaje-chat.pc {
-    background-color: teal;
+    background-color: #898F9C;
     color: white;
 }
 .mensaje-chat.user {
-    background-color: orange;
+    background-color: #006AFF;
     color: white;
     align-self: flex-end;
 }
@@ -88,7 +93,7 @@
     border: none;
 }
 .enviar-chatbot {
-    background: orange;
+    background: #006AFF;
     border: none;
     color: white;
 }

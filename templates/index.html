@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>ChatBot</title>
+    <link rel="icon" type="image/png" href="{{url_for('static',filename='images/logo.png')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
     <script src="{{url_for('static',filename='js/index.js')}}"></script>
+    <script src="https://kit.fontawesome.com/10752ea731.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>Título del Sitio Web</h1>
@@ -17,7 +19,13 @@
             </span>
         </div>
         <div class="cuadro-chatbot in">
-            <h2>Chatea con Nosotros!</h2>
+            <h2>
+                Chatea con Nosotros!
+                <a href="{{url_for('admin')}}" target="_blank">
+                    <i class="fas fa-cog"></i>
+                </a>
+
+            </h2>
             <div class="mensajes-chatbot" id="div-mensajes-chat">
                 <div class="mensaje-chat pc">
                     Hola. ¿En qué te puedo Ayudar?

@@ -32,5 +32,8 @@ class Correo:
         self.smtp.sendmail(self.mensaje["From"], self.mensaje["to"], self.mensaje.as_string())
         self.smtp.quit()
 
+
+'''
 correo = Correo();
 correo.enviarCorreo("La siguiente respuesta no fue satisfactoria:\n\nPregunta: Que es cascada")
+'''

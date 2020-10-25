@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
 class Mongo:
@@ -6,6 +7,12 @@ class Mongo:
         self.cliente = MongoClient('localhost', port=27017)  # Para el caso de ser Local
         # Seleccionamos o creamos la base de Datos
         self.dbname = self.cliente['chatbot']
+
+    def getall(self):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['textos']
+        # Retonamos todos los textos
+        return colection.find({})
 
     def gettexto(self):
         respuesta = []
@@ -23,7 +30,7 @@ class Mongo:
     def inserttexto(self, documento):
         # Seleccionamos o creamos la colección (Tabla)
         colection = self.dbname['textos']
-        colection.insert_one(documento)
+        return colection.insert_one(documento)
 
     def getRespuesta(self, titulo):
         urlimage = ""
@@ -44,6 +51,11 @@ class Mongo:
             frase = ""
 
         return {"urlimage": urlimage, "frase": frase}
+    def eliminarDocumento(self,id):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['textos']
+        return colection.delete_one({'_id':ObjectId(id)})
+
 
 '''
 mongo = Mongo()

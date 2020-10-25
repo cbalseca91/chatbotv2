@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="{{url_for('static',filename='images/logo.png')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
+    <script src="{{url_for('static',filename='js/login.js')}}"></script>
+    <script src="https://kit.fontawesome.com/10752ea731.js" crossorigin="anonymous"></script>
+    <title>Login - ChatBot</title>
+</head>
+<body>
+    <!-- Acá va el logo de la UPS -->
+    <div class="contenedor-imagen">
+        <img class="imagen-logo" src="{{url_for('static',filename='images/ups.png')}}" alt="Logo UPS Chatbot">
+    </div>
+    <div class="alert-error">
+        <p class="alert-error-text">
+            {{msg}}
+        </p>
+    </div>
+    <h1 class="titulo-login">Iniciar Sesión</h1>
+    <main class="contenedor-form">
+        <form method="POST">
+            <div>
+                <label for="username">Usuario</label>
+                <input type="text" name="username" id="username" autocomplete="off" required>
+            </div>
+            <div>
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" autocomplete="off" required>
+            </div>
+            <div>
+                <button type="submit">Iniciar Sesión</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

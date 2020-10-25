@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="{{url_for('static',filename='images/logo.png')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/admin.css')}}">
+    <script src="{{url_for('static',filename='js/admin.js')}}"></script>
+    <script src="https://kit.fontawesome.com/10752ea731.js" crossorigin="anonymous"></script>
+    <title>Administrador</title>
+</head>
+<body>
+    <h1 class="titulo-admin">
+        Control de Aprendizaje del Chatbot
+        <a href="">
+            <i class="fas fa-sync-alt"></i>
+        </a>
+        <a href="{{url_for('logout')}}">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+
+    </h1>
+
+    <div class="alert-error">
+        <p class="alert-error-text">
+            {{error}}
+        </p>
+    </div>
+    <div class="alert-msg">
+        <p class="alert-msg-text">
+            {{msg}}
+        </p>
+    </div>
+    <div class="contenedor">
+        <div class="contenedor-form">
+            <h2>Nuevo Ingreso</h2>
+            <form method="POST">
+                <div>
+                    <label for="pregunta">Ingrese la Pregunta o Tema</label>
+                    <input type="text" name="pregunta" id="pregunta" required>
+                </div>
+                <div>
+                    <label for="url_imagen">Ingrese la URL de Imagen (Opcional)</label>
+                    <input type="text" name="url_imagen" id="url_imagen">
+                </div>
+                <div>
+                    <label for="respuesta">Ingrese la Respuesta o la Definición</label>
+                    <textarea name="respuesta" id="respuesta" rows="5" required></textarea>
+                </div>
+                <div class="btn-form-container">
+                    <button>Guardar</button>
+                </div>
+            </form>
+        </div>
+        <div class="contenedor-tabla">
+            <h2>Lista de Ingresos</h2>
+            <table class="table">
+                <cols>
+                    <col width="15%">
+                    <col width="60%">
+                    <col width="20%">
+                </cols>
+                <thead>
+                    <tr>
+                        <th>Pregunta/Tema</th>
+                        <th>Respuesta/Definición</th>
+                        <th>URL Image</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for dato in datos%}
+                    <tr>
+                        <td>{{dato.titulo}}</td>
+                        <td>{{dato.frase}}</td>
+                        <td>{{dato.urlimage}}</td>
+                        <td>
+                            <a class="btn-eliminar" href="{{url_for('deletefrase',id=dato._id)}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

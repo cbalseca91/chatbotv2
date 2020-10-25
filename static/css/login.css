@@ -1,0 +1,61 @@
+body {
+    background: white;
+}
+.contenedor-imagen {
+    width: 100%;
+
+}
+.imagen-logo {
+    display: block;
+    max-width: 50%;
+    margin: 0 auto;
+}
+.titulo-login {
+    text-align: center;
+    color: #006AFF;
+    text-transform: uppercase;
+}
+.contenedor-form {
+    width: 16%;
+    margin: 0 auto;
+    background: #898F9C;
+    padding: 10px 20px;
+}
+.contenedor-form label {
+    color: white;
+    display: block;
+    margin: 10px 0 2px;
+    font-size: 1.2rem;
+}
+.contenedor-form input {
+    color: #006AFF;
+    border: none;
+    padding: 3px 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    width: 100%;
+    min-width: 100%;
+}
+.contenedor-form button {
+    display: block;
+    background: #006AFF;
+    color: white;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    padding: 3px 5px;
+    margin: 15px auto 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.alert-error {
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: inline-block;
+}
+alert-error-text {
+    padding: 5px 5px;
+}
