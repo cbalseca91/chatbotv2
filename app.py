@@ -27,10 +27,17 @@ def admin():
             documento['frase'] = request.form['respuesta']
             if 'url_imagen' in request.form and len(request.form['url_imagen']) > 0:
                 documento['urlimage'] = request.form['url_imagen']
-            if mongo.inserttexto(documento):
-                msg = "Ingresado correctamente"
+
+            if('idpregunta' in request.form and request.form['idpregunta']):
+                if mongo.updatetexto(documento,request.form['idpregunta']):
+                    msg = "Modificado correctamente"
+                else:
+                    error = "No se pudo actualizar el valor correctamente"
             else:
-                error = "No se pudo ingresar ningún valor"
+                if mongo.inserttexto(documento):
+                    msg = "Ingresado correctamente"
+                else:
+                    error = "No se pudo ingresar ningún valor"
     if 'username' in session:
         return render_template('admin.html', msg=msg, error=error, datos=datos)
     return redirect(url_for('login'))

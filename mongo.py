@@ -32,6 +32,14 @@ class Mongo:
         colection = self.dbname['textos']
         return colection.insert_one(documento)
 
+    # {frase: 'frase', urlimage: 'http://'}
+    def updatetexto(self, documento, id):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['textos']
+        myquery = {'_id': ObjectId(id)}
+        newvalues = {'$set': documento}
+        return colection.update_one(myquery, newvalues)
+
     def getRespuesta(self, titulo):
         urlimage = ""
         frase = ""
@@ -51,10 +59,11 @@ class Mongo:
             frase = ""
 
         return {"urlimage": urlimage, "frase": frase}
-    def eliminarDocumento(self,id):
+
+    def eliminarDocumento(self, id):
         # Seleccionamos o creamos la colección (Tabla)
         colection = self.dbname['textos']
-        return colection.delete_one({'_id':ObjectId(id)})
+        return colection.delete_one({'_id': ObjectId(id)})
 
 
 '''

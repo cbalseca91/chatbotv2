@@ -33,19 +33,21 @@
         <div class="contenedor-form">
             <h2>Nuevo Ingreso</h2>
             <form method="POST">
+                <input type="hidden" name="idpregunta" id="idpregunta" value="" autocomplete="off">
                 <div>
                     <label for="pregunta">Ingrese la Pregunta o Tema</label>
-                    <input type="text" name="pregunta" id="pregunta" required>
+                    <input type="text" name="pregunta" id="pregunta" required autocomplete="off">
                 </div>
                 <div>
                     <label for="url_imagen">Ingrese la URL de Imagen (Opcional)</label>
-                    <input type="text" name="url_imagen" id="url_imagen">
+                    <input type="text" name="url_imagen" id="url_imagen" autocomplete="off">
                 </div>
                 <div>
                     <label for="respuesta">Ingrese la Respuesta o la Definición</label>
                     <textarea name="respuesta" id="respuesta" rows="5" required></textarea>
                 </div>
                 <div class="btn-form-container">
+                    <button type="reset" class="reset">Cancelar</button>
                     <button>Guardar</button>
                 </div>
             </form>
@@ -74,7 +76,10 @@
                         <td>{{dato.urlimage}}</td>
                         <td>
                             <a class="btn-eliminar" href="{{url_for('deletefrase',id=dato._id)}}">
-                                <i class="fas fa-trash"></i>
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                            <a class="btn-editar" href="#" onclick="handlerEdit('{{dato._id}}','{{dato.titulo}}','{{dato.frase}}','{{dato.urlimage}}')">
+                                <i class="fas fa-edit"></i>
                             </a>
                         </td>
                     </tr>

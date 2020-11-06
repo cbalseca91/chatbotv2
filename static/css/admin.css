@@ -67,6 +67,11 @@
     padding: 5px;
     font-size: 1.1rem;
 }
+.btn-form-container button.reset {
+    background: #FFF;
+    border: 1px solid #006AFF;
+    color: #006AFF;
+}
 .contenedor-tabla {
     flex-grow: 2;
     overflow-x: hidden;
@@ -91,9 +96,16 @@
     color: #006AFF;
     font-size: 0.8rem;
 }
-.table .btn-eliminar {
-    background: red;
-    color: white;
+.btn-eliminar {
+    background: white;
+    color: red;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.btn-editar {
+    background: white;
+    color: blue;
     border: none;
     border-radius: 3px;
     cursor: pointer;
