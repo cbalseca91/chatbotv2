@@ -4,13 +4,10 @@ from passlib.context import CryptContext
 
 class Mongo:
     def __init__(self):
-        self.cliente = MongoClient("mongodb+srv://admin-chatbot:pcRT1CrZWt3ZsXBz@chatbot.rljhp.mongodb.net/chatbotdb?retryWrites=true&w=majority")
+        self.cliente = MongoClient("mongodb+srv://admin-chatbot:pcRT1CrZWt3ZsXBz@chatbot.rljhp.mongodb.net/chatbotdb?retryWrites=true&w=majority",27015)
         # Seleccionamos o creamos la base de Datos
-        print("Connect to URL!");
         self.test = self.cliente.test
-        print("testing", self.test)
-        self.dbname = self.cliente['chatbotdb']
-        print("Selected", self.dbname)
+        self.dbname = self.cliente.get_database('chatbotdb')
         self.pwd_context = CryptContext(
             schemes=["pbkdf2_sha256"],
             default="pbkdf2_sha256",
