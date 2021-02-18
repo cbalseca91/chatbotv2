@@ -4,9 +4,13 @@ from passlib.context import CryptContext
 
 class Mongo:
     def __init__(self):
-        self.cliente = MongoClient('localhost', port=27017)  # Para el caso de ser Local
+        self.cliente = MongoClient("mongodb+srv://admin-chatbot:pcRT1CrZWt3ZsXBz@chatbot.rljhp.mongodb.net/chatbotdb?retryWrites=true&w=majority")
         # Seleccionamos o creamos la base de Datos
-        self.dbname = self.cliente['chatbot']
+        print("Connect to URL!");
+        self.test = self.cliente.test
+        print("testing", self.test)
+        self.dbname = self.cliente['chatbotdb']
+        print("Selected", self.dbname)
         self.pwd_context = CryptContext(
             schemes=["pbkdf2_sha256"],
             default="pbkdf2_sha256",
@@ -85,10 +89,13 @@ class Mongo:
 
     def getUser(self, userdata):
         # Seleccionamos o creamos la colección (Tabla)
+        print("Llega acá")
         colection = self.dbname['users']
+        print("Pasó el colection", colection)
         user = colection.find_one({
             "email": userdata["email"]
         })
+        print("Busco en Users", user)
         if self.pwd_context.verify(userdata['password'], user['password']):
             return user
         else:
