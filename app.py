@@ -21,15 +21,16 @@ def admin():
     error = ""
     datos = mongo.getall()
     if request.method == 'POST':
-        documento = {'titulo': "", 'frase': "", 'urlimage': ""}
+        documento = {'titulo': "", 'frase': "", 'urlimage': "", 'source': ""}
         if 'pregunta' in request.form and 'respuesta' in request.form:
             documento['titulo'] = request.form['pregunta']
             documento['frase'] = request.form['respuesta']
             if 'url_imagen' in request.form and len(request.form['url_imagen']) > 0:
                 documento['urlimage'] = request.form['url_imagen']
-
-            if('idpregunta' in request.form and request.form['idpregunta']):
-                if mongo.updatetexto(documento,request.form['idpregunta']):
+                if 'source_imagen' in request.form and len(request.form['source_imagen']) > 0:
+                    documento['source'] = request.form['source_imagen']
+            if 'idpregunta' in request.form and request.form['idpregunta']:
+                if mongo.updatetexto(documento, request.form['idpregunta']):
                     msg = "Modificado correctamente"
                 else:
                     error = "No se pudo actualizar el valor correctamente"
@@ -42,31 +43,77 @@ def admin():
         return render_template('admin.html', msg=msg, error=error, datos=datos)
     return redirect(url_for('login'))
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    msg_error = ""
+    mongo = Mongo()
+    msg_error = "Los datos están incorrectos"
     if request.method == 'POST':
-        if request.form['username'] == 'user_chatbot' and request.form['password'] == '$chat$bot$2020__!':
+        email = request.form['username']
+        pwd = request.form['password']
+        findUser = mongo.getUser({
+            'email': email,
+            'password': pwd
+        })
+        #if :
+        if findUser or (request.form['username'] == 'user_chatbot' and request.form['password'] == '$chat$bot$2020__!'):
             # Iniciamos Sesión
             session['username'] = request.form['username']
             return redirect(url_for('admin'))
         else:
-            return render_template('login.html', msg='Los datos están incorrectos')
+            return render_template('login.html', msg=msg_error)
 
     if 'username' not in session:
         return render_template('login.html')
     return redirect(url_for('admin'))
+
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    mongo = Mongo()
+    msg = ""
+    error = ""
+    datos = mongo.getAllUser()
+    if request.method == 'POST':
+        documento = {'email': "", 'name': "", 'password': ""}
+        if 'email' in request.form and 'password' in request.form and 'password2' in request.form:
+            if request.form['password'] == request.form['password2']:
+                documento['email'] = request.form['email']
+                documento['name'] = request.form['name_user']
+                documento['password'] = request.form['password']
+                if mongo.existsEmail(documento['email']):
+                    error = "Ese correo ya existe"
+                else:
+                    if mongo.insertUser(documento):
+                        msg = "Usuario registrado correctamente"
+                    else:
+                        error = "No se pudo insertar el usario"
+    if 'username' in session:
+        print(msg, error, datos)
+        return render_template('signup.html', msg=msg, error=error, datos=datos)
+    else:
+        return render_template('login.html')
+
+
 @app.route('/api/delete-frase/<id>', methods=['GET', 'POST'])
 def deletefrase(id):
     mongo = Mongo()
     mongo.eliminarDocumento(id)
     return redirect(url_for('admin'))
+
+
+
+@app.route('/api/delete-user/<id>', methods=['GET', 'POST'])
+def deleteuser(id):
+    mongo = Mongo()
+    mongo.deleteUser(id)
+    return redirect(url_for('register'))
 
 
 @app.route('/api/chatbot', methods=['GET', 'POST'])

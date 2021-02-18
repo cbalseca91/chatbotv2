@@ -1,12 +1,17 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-
+from passlib.context import CryptContext
 
 class Mongo:
     def __init__(self):
         self.cliente = MongoClient('localhost', port=27017)  # Para el caso de ser Local
         # Seleccionamos o creamos la base de Datos
         self.dbname = self.cliente['chatbot']
+        self.pwd_context = CryptContext(
+            schemes=["pbkdf2_sha256"],
+            default="pbkdf2_sha256",
+            pbkdf2_sha256__default_rounds=30000
+        )
 
     def getall(self):
         # Seleccionamos o creamos la colección (Tabla)
@@ -65,6 +70,40 @@ class Mongo:
         colection = self.dbname['textos']
         return colection.delete_one({'_id': ObjectId(id)})
 
+    # {email: 'cbalseca@est.ups.edu.ec', name: 'Christian Balseca', password: 'cbalseca2021!'}
+    def insertUser(self, documento):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['users']
+        documento['password'] = self.pwd_context.encrypt(documento['password'])
+        return colection.insert_one(documento)
+
+    def existsEmail(self, email):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['users']
+        respuesta = colection.find_one({"email": email})
+        return True if respuesta else False
+
+    def getUser(self, userdata):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['users']
+        user = colection.find_one({
+            "email": userdata["email"]
+        })
+        if self.pwd_context.verify(userdata['password'], user['password']):
+            return user
+        else:
+            return None
+
+    def getAllUser(self):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['users']
+        user = colection.find({})
+        return user
+
+    def deleteUser(self, id):
+        # Seleccionamos o creamos la colección (Tabla)
+        colection = self.dbname['users']
+        return colection.delete_one({'_id': ObjectId(id)})
 
 '''
 mongo = Mongo()

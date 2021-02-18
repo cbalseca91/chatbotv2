@@ -1,22 +1,23 @@
-.titulo-admin {
+.titulo-signup {
     color: #006AFF;
     font-size: 2.5rem;
 }
-.titulo-admin a {
+.titulo-signup a {
     text-decoration: none;
 }
-.titulo-admin i.fa-sync-alt {
+.titulo-signup i.fa-sync-alt {
     font-size: 1.2rem;
     color: green;
 }
-.titulo-admin i.fa-sign-out-alt {
+.titulo-signup i.fa-sign-out-alt {
     font-size: 1.2rem;
     color: red;
 }
-.titulo-admin i.fa-user-plus {
+.titulo-signup i.fa-user-plus {
     font-size: 1.2rem;
     color: black;
 }
+
 .contenedor {
     display: flex;
     justify-content: space-around;
@@ -25,9 +26,15 @@
     color: #006AFF;
 }
 .contenedor > div {
+    margin: 0 1rem;
     border: 3px solid #898F9C;
     border-radius: 15px;
     padding: 15px;
+}
+.contenedor-form {
+    flex-grow: 1;
+    min-width: 20%;
+    height: 70vh;
 }
 .contenedor-form label {
     color: #006AFF;
@@ -35,7 +42,6 @@
     display: block;
     margin: 0 0 10px;
 }
-
 .contenedor-form input {
     color: #006AFF;
     font-size: 1rem;
@@ -44,21 +50,6 @@
     width: 97%;
     border: 0.5px solid #898F9C;
     border-radius: 5px;
-}
-.contenedor-form textarea {
-    color: #006AFF;
-    font-size: 1rem;
-    padding: 5px 1.5%;
-    margin: 0 0 10px;
-    width: 97%;
-    border: 0.5px solid #898F9C;
-    border-radius: 5px;
-    resize: none;
-}
-.contenedor-form {
-    flex-grow: 1;
-    min-width: 25%;
-    height: 70vh;
 }
 .btn-form-container {
     text-align: right;
@@ -77,12 +68,8 @@
     color: #006AFF;
 }
 .contenedor-tabla {
-    flex-grow: 2;
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 70vh;
+    flex-grow: 3;
 }
-
 .table {
     width: 100%;
     border: 1px solid #898F9C;
@@ -92,13 +79,14 @@
     background: #898F9C;
     border: 1px solid black;
     padding: 3px;
+    font-size: 1.2rem;
     color: white;
 }
 .table td {
     border: 1px solid black;
     padding: 3px;
     color: #006AFF;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 .btn-eliminar {
     background: white;

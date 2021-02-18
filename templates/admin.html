@@ -16,6 +16,9 @@
         <a href="{{url_for('logout')}}">
             <i class="fas fa-sign-out-alt"></i>
         </a>
+        <a href="{{url_for('register')}}">
+            <i class="fas fa-user-plus"></i>
+        </a>
 
     </h1>
 
@@ -43,6 +46,10 @@
                     <input type="text" name="url_imagen" id="url_imagen" autocomplete="off">
                 </div>
                 <div>
+                    <label for="source_imagen">Ingrese la Fuente de la Imagen (Opcional)</label>
+                    <input type="text" name="source_imagen" id="source_imagen" autocomplete="off">
+                </div>
+                <div>
                     <label for="respuesta">Ingrese la Respuesta o la Definición</label>
                     <textarea name="respuesta" id="respuesta" rows="5" required></textarea>
                 </div>
@@ -65,6 +72,7 @@
                         <th>Pregunta/Tema</th>
                         <th>Respuesta/Definición</th>
                         <th>URL Image</th>
+                        <th>Fuente</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -74,11 +82,12 @@
                         <td>{{dato.titulo}}</td>
                         <td>{{dato.frase}}</td>
                         <td>{{dato.urlimage}}</td>
+                        <td>{{dato.source}}</td>
                         <td>
                             <a class="btn-eliminar" href="{{url_for('deletefrase',id=dato._id)}}">
                                 <i class="far fa-trash-alt"></i>
                             </a>
-                            <a class="btn-editar" href="#" onclick="handlerEdit('{{dato._id}}','{{dato.titulo}}','{{dato.frase}}','{{dato.urlimage}}')">
+                            <a class="btn-editar" href="#" onclick="handlerEdit('{{dato._id}}','{{dato.titulo}}','{{dato.frase}}','{{dato.urlimage}}','{{dato.source}}')">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>

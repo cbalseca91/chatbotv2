@@ -33,6 +33,8 @@ class Chatbot:
         # Definimos respuestas manuales a posibles saludos
         self.saludos_inputs = ("hola", "buenas", "qué tal", "hey", "buenos días")
         self.saludos_output = ["Hola", "Hola que tal", "Saludos. En que te puedo ayudar"]
+        self.despido_inputs = ("chao", "adios", "hasta pronto", "hasta luego", "hasta mañana", "bye", "bye bye")
+        self.despido_output = ["Un gusto haberte podido ayudar.","Gracias. Regresa pronto.", "Estamos para ayudarte"]
         self.pregunta_output = ["¿Te fue útil la respuesta?","¿La respuesta te ayudó?","¿Estás satisfecho con la respuesta?"]
         self.satisfaccion_input_pos = ("si", "bien", "de acuerdo", "de a cuerdo", "correcto", "satisfecho")
         self.satisfaccion_input_neg = ("no", "mal", "desacuerdo", "tal vez", "talvez", "incompleto", "fallo", "falló")
@@ -45,6 +47,11 @@ class Chatbot:
         for word in sentence.split():
             if word.lower() in self.saludos_inputs:
                 return random.choice(self.saludos_output)
+
+    def despedirse(self, sentence):
+        for word in sentence.split():
+            if word.lower() in self.despido_inputs:
+                return random.choice(self.despido_output)
 
     # Función para obtener todos los lemas por cada token desde NLTK
     def LemTokens(self, tokens):
@@ -78,17 +85,20 @@ class Chatbot:
             if len(respuesta['urlimage']) > 0:
                 url = respuesta['urlimage']
                 frase = respuesta["frase"]
-                #Texto formateado con la imagen
-                return f'{frase} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"> </a>{si_no}'
+                fuente = respuesta["source"]
+                # Texto formateado con la imagen
+                return f'{frase} <a href="{url}" target="_blank"> <img class="img-chat" src="{url}" alt="Respuesta Chat"><p>{fuente}</p></a>{si_no}'
             else:
                 frase = respuesta["frase"] + si_no
-                #Solo texto en la respuesta
+                # Solo texto en la respuesta
                 return frase
 
     def recibir_mensaje(self, texto):
         texto = texto.lower()
         if (self.saludar(texto) != None):
             return self.saludar(texto)
+        elif (self.despedirse(texto) != None):
+            return self.despedirse(texto)
         else:
             return self.response(texto)
 
