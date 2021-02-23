@@ -11,6 +11,7 @@ class Correo:
         # Cargar el servidor SMTP adecuado
         # self.smtp = SMTP_SSL("smtp.gmail.com:465")  # Gmail requiere SSL para conectarse.
         self.smtp = SMTP("smtp.live.com")  # Outlook
+        self.smtp.ehlo()
         self.smtp.starttls()
         self.smtp.login("chatbot.2020@hotmail.com", "Chat.bot.ups.2020")
 
