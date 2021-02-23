@@ -92,9 +92,11 @@ class Mongo:
         user = colection.find_one({
             "email": userdata["email"]
         })
-        print("Busco en Users", user)
-        if self.pwd_context.verify(userdata['password'], user['password']):
-            return user
+        if user:
+            if self.pwd_context.verify(userdata['password'], user['password']):
+                return user
+            else:
+                return None
         else:
             return None
 
