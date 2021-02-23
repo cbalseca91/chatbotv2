@@ -10,3 +10,4 @@ scikit-learn
 pymongo==3.11.0
 passlib==1.7.4
 dnspython==1.16.0
+gunicorn==20.0.4
